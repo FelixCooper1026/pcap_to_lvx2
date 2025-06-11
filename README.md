@@ -26,8 +26,7 @@
 1.  **克隆本仓库：**
     如果您还没有克隆项目，请使用以下命令将其克隆到本地：
     ```bash
-    git clone https://github.com/YourUsername/YourRepoName.git # 请替换为您的实际仓库URL
-    cd YourRepoName # 导航到项目目录
+    git clone https://github.com/FelixCooper1026/pcap_to_lvx2.git 
     ```
 
 2.  **安装依赖：**
