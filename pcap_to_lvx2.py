@@ -8,6 +8,10 @@ import time
 import socket
 from collections import deque
 import io
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import sys
+import argparse
 
 
 class PCAPToLVX2:
@@ -421,16 +425,55 @@ class PCAPToLVX2:
 
 
 def main():
-    import argparse
+    # 检查是否通过命令行参数运行
+    if len(sys.argv) > 1:
+        # 命令行模式
+        parser = argparse.ArgumentParser(description="Convert PCAP file to LVX2 format")
+        parser.add_argument('input_file', help='Input PCAP file path')
+        parser.add_argument('output_file', nargs='?', help='Output LVX2 file path (optional)')
+        args = parser.parse_args()
+        converter = PCAPToLVX2(args.input_file, args.output_file)
+        converter.convert()
+    else:
+        # GUI模式
+        root = tk.Tk()
+        root.withdraw()  # 隐藏主窗口
 
-    parser = argparse.ArgumentParser(description="Convert PCAP file to LVX2 format")
-    parser.add_argument('input_file', help='Input PCAP file path')
-    parser.add_argument('output_file', nargs='?', help='Output LVX2 file path (optional)')
+        # 设置文件选择对话框的标题和文件类型
+        filetypes = [
+            ('PCAP files', '*.pcap;*.pcapng;*.cap'),
+            ('All files', '*.*')
+        ]
 
-    args = parser.parse_args()
+        # 显示文件选择对话框
+        input_file = filedialog.askopenfilename(
+            title='选择PCAP文件',
+            filetypes=filetypes
+        )
 
-    converter = PCAPToLVX2(args.input_file, args.output_file)
-    converter.convert()
+        if input_file:  # 如果用户选择了文件
+            # 获取默认的输出文件名
+            default_output = os.path.splitext(input_file)[0] + '.lvx2'
+            
+            # 显示保存文件对话框
+            output_file = filedialog.asksaveasfilename(
+                title='保存LVX2文件',
+                defaultextension='.lvx2',
+                initialfile=os.path.basename(default_output),
+                filetypes=[('LVX2 files', '*.lvx2')]
+            )
+
+            if output_file:  # 如果用户选择了保存位置
+                try:
+                    converter = PCAPToLVX2(input_file, output_file)
+                    converter.convert()
+                    messagebox.showinfo("完成", f"转换完成！\n输出文件：{output_file}")
+                except Exception as e:
+                    messagebox.showerror("错误", f"转换过程中出现错误：\n{str(e)}")
+            else:
+                messagebox.showinfo("取消", "已取消保存文件")
+        else:
+            messagebox.showinfo("取消", "已取消选择文件")
 
 
 if __name__ == "__main__":

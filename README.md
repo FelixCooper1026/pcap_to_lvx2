@@ -13,8 +13,21 @@
 - 优化的文件 I/O，支持预分配和缓冲写入
 - 鲁棒的错误处理和验证机制
 - 实时处理进度、速度及预估剩余时间显示
+- 支持图形界面和命令行两种使用方式
+- 支持多种 PCAP 文件格式（.pcap、.pcapng、.cap）
 
 ## 安装
+
+### 方法一：使用可执行文件（推荐）
+
+1. 访问 [Releases](https://github.com/FelixCooper1026/pcap_to_lvx2/releases) 页面
+2. 下载最新版本的 `pcap_to_lvx2.exe`
+   - 在 Assets 部分找到 `pcap_to_lvx2.exe`
+   - 点击文件名即可下载
+3. 将下载的 `pcap_to_lvx2.exe` 保存到任意位置
+4. 双击运行即可，无需安装其他依赖
+
+### 方法二：从源码运行
 
 ```bash
 # 克隆仓库
@@ -26,16 +39,26 @@ pip install -r requirements.txt
 
 ## 使用方法
 
+### 图形界面（推荐）
+
+1. 双击运行 `pcap_to_lvx2.exe`
+2. 在弹出的文件选择对话框中选择要转换的 PCAP 文件
+   - 支持的文件格式：.pcap、.pcapng、.cap
+3. 选择保存 LVX2 文件的位置
+4. 等待转换完成，会显示进度条和完成提示
+
+### 命令行
+
 ```bash
 python pcap_to_lvx2.py <输入文件> [输出文件]
 ```
 
-### 参数说明
+#### 参数说明
 
 - `输入文件`：PCAP 文件路径（必需）
 - `输出文件`：LVX2 文件路径（可选，默认为 `<输入文件名>.lvx2`）
 
-### 使用示例
+#### 使用示例
 
 ```bash
 # 指定输出文件
@@ -57,6 +80,7 @@ Error: No point cloud data found from port 56300 in the PCAP file. Aborting file
 
 - scapy：用于读取 PCAP 文件
 - tqdm：用于显示进度条
+- tkinter：用于图形界面（Python 标准库）
 
 ## 许可证
 
