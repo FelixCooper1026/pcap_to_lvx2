@@ -145,10 +145,10 @@ class PCAPToLVX2:
             for pkt_data in all_raw_packets:
                 try:
                     payload, src_port, dst_port = PCAPToLVX2.parse_raw_udp_packet(pkt_data)
-                    if payload is None:  # Not a UDP packet or parsing failed
+                    if payload is None:  
                         continue
 
-                    # 检查是否是设备信息数据包（端口56200）
+                    # 检查是否是 Mid-360 设备信息数据包（端口56200）
                     if src_port == 56200 or dst_port == 56200:
                         self.parse_udp_payload(payload)
                         # 如果已经获取到SN号，说明基本信息已经获取完成
@@ -359,13 +359,13 @@ class PCAPToLVX2:
 
             # 处理数据包
             with tqdm(total=total_packets, desc="Converting") as pbar:
-                for pkt_data in all_raw_packets:  # Iterate over in-memory packets
+                for pkt_data in all_raw_packets:  
                     try:
                         payload, src_port, dst_port = PCAPToLVX2.parse_raw_udp_packet(pkt_data)
-                        if payload is None:  # Not a UDP packet or parsing failed
+                        if payload is None:  
                             continue
 
-                        if src_port == 56300:  # Livox激光雷达端口
+                        if src_port == 56300:  # Mid-360 点云数据端口
                             if len(payload) >= 28:
                                 timestamp = self.get_timestamp_from_payload(payload)
                                 if timestamp is not None:
